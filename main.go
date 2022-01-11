@@ -112,7 +112,9 @@ func main() {
 	// Write an index.html for each module found.
 	for _, module := range modules {
 		if !strings.HasPrefix(module, importPrefix) {
-			log.Printf("ignoring module %q, does not match prefix %q", module, importPrefix)
+			if *verbose {
+				log.Printf("ignoring module %q, does not match prefix %q", module, importPrefix)
+			}
 			continue
 		}
 
@@ -121,7 +123,9 @@ func main() {
 			log.Fatalf("making directory %s: %s", dir, err)
 		}
 		indexPath := filepath.Join(dir, "index.html")
-		log.Printf("writing file %s", indexPath)
+		if *verbose {
+			log.Printf("writing file %s", indexPath)
+		}
 
 		f, err := os.Create(indexPath)
 		if err != nil {
